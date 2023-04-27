@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PriceModifier</string>
+    <string name="update_price_by">Update price by</string>
+    <string name="update_on">Update On</string>
+    <string name="update_off">Update Off</string>
+    <string name="click_the_button_to_update_price">Click the button to update the price.</string>
+</resources>
