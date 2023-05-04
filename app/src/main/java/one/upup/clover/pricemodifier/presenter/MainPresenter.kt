@@ -28,7 +28,7 @@ class MainPresenter : IMainPresenter {
 
     private val lineItemAddedReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == Intents.ACTION_LINE_ITEM_ADDED || updatePriceState) {
+            if (intent.action == Intents.ACTION_LINE_ITEM_ADDED && updatePriceState) {
                 val orderId = intent.getStringExtra(Intents.EXTRA_CLOVER_ORDER_ID)
 
                 coroutineScope.launch {
@@ -119,22 +119,18 @@ class MainPresenter : IMainPresenter {
         disconnectToOrderConnector()
         if (cloverAccount != null) {
             orderConnector = OrderConnector(context, cloverAccount, null)
-            orderConnector!!.connect()
+            orderConnector?.connect()
         }
     }
 
     override fun disconnectToInventoryConnector() {
-        if (inventoryConnector != null) {
-            inventoryConnector!!.disconnect()
-            inventoryConnector = null
-        }
+        inventoryConnector?.disconnect()
+        inventoryConnector = null
     }
 
     override fun disconnectToOrderConnector() {
-        if (orderConnector != null) {
-            orderConnector!!.disconnect()
-            orderConnector = null
-        }
+        orderConnector?.disconnect()
+        orderConnector = null
     }
 
     override fun getUpdatePriceState(): Boolean {
@@ -202,7 +198,7 @@ class MainPresenter : IMainPresenter {
             }
             withContext(Dispatchers.Main) {
                 (context as MainActivity)
-                    .showRvItemsList(ItemsListAdapter(itemsList.sortedByDescending {it.date}))
+                    .showRvItemsList(ItemsListAdapter(itemsList.sortedByDescending { it.date }))
             }
         }.apply { start() }
     }
